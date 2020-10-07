@@ -48,6 +48,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -120,9 +121,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\BookStoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataClasses.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,23 +137,80 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\easy-responsive-tabs.css" />
+    <Content Include="Content\global.css" />
+    <Content Include="Content\slider.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\about_img.jpg" />
+    <Content Include="images\arrow-next.png" />
+    <Content Include="images\arrow-prev.png" />
+    <Content Include="images\arrow_up.png" />
+    <Content Include="images\compare.png" />
+    <Content Include="images\delivery-img1.jpg" />
+    <Content Include="images\delivery-img2.jpg" />
+    <Content Include="images\delivery-img3.jpg" />
+    <Content Include="images\dribbble.png" />
+    <Content Include="images\drop_arrow-hover.png" />
+    <Content Include="images\drop_arrow.png" />
+    <Content Include="images\facebook.png" />
+    <Content Include="images\feature-pic1.jpg" />
+    <Content Include="images\feature-pic2.jpg" />
+    <Content Include="images\feature-pic3.jpg" />
+    <Content Include="images\feature-pic4.jpg" />
+    <Content Include="images\linkedin.png" />
+    <Content Include="images\list-img.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\new-pic1.jpg" />
+    <Content Include="images\new-pic22.jpg" />
+    <Content Include="images\new-pic3.jpg" />
+    <Content Include="images\new-pic4.jpg" />
+    <Content Include="images\newsimg1.jpg" />
+    <Content Include="images\newsimg2.jpg" />
+    <Content Include="images\newsimg3.jpg" />
+    <Content Include="images\preview.jpg" />
+    <Content Include="images\price-rating.png" />
+    <Content Include="images\productslide-1.jpg" />
+    <Content Include="images\productslide-2.jpg" />
+    <Content Include="images\productslide-3.jpg" />
+    <Content Include="images\productslide-4.jpg" />
+    <Content Include="images\productslide-5.jpg" />
+    <Content Include="images\productslide-6.jpg" />
+    <Content Include="images\quality-rating.png" />
+    <Content Include="images\search.png" />
+    <Content Include="images\skype.png" />
+    <Content Include="images\slide-1-image.png" />
+    <Content Include="images\slide-2-image.jpg" />
+    <Content Include="images\slide-3-image.jpg" />
+    <Content Include="images\tag.png" />
+    <Content Include="images\thumbnailslide-1.jpg" />
+    <Content Include="images\thumbnailslide-2.jpg" />
+    <Content Include="images\thumbnailslide-3.jpg" />
+    <Content Include="images\thumbnailslide-4.jpg" />
+    <Content Include="images\thumbnailslide-5.jpg" />
+    <Content Include="images\thumbnailslide-6.jpg" />
+    <Content Include="images\twitter.png" />
+    <Content Include="images\value-rating.png" />
+    <Content Include="images\wishlist.png" />
+    <Content Include="fonts\Amble-Regular-webfont.ttf" />
+    <Content Include="images\Thumbs.db" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\easing.js" />
+    <Content Include="Scripts\easyResponsiveTabs.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery.accordion.js" />
+    <Content Include="Scripts\jquery.easing.js" />
+    <Content Include="Scripts\move-top.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\slides.min.jquery.js" />
+    <Content Include="Scripts\startstop-slider.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -158,14 +221,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -176,9 +235,25 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Models\DataClasses.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Models\DataClasses.dbml.layout">
+      <DependentUpon>DataClasses.dbml</DependentUpon>
+    </None>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\BookStore\Index.cshtml" />
+    <Content Include="Views\BookStore\Theme.cshtml" />
+    <Content Include="Views\BookStore\Publisher.cshtml" />
+    <Content Include="Views\BookStore\ProductsByTheme.cshtml" />
+    <Content Include="Views\BookStore\ProductsByPublisher.cshtml" />
+    <Content Include="Views\BookStore\Detail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

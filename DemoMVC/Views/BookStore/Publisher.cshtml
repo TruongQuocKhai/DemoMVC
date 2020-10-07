@@ -1,0 +1,12 @@
+﻿
+
+
+<div class="categories">
+    <ul>
+        <h3>Publisher</h3>
+        @foreach (var item in Model)
+        {
+            <li><a href="@Url.Action("ProductsByPublisher", "BookStore", new { id = item.Id})">@item.Name</a></li>
+        }
+    </ul>
+</div>

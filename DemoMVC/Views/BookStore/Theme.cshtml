@@ -1,0 +1,12 @@
+﻿@*@model IEnumerable<DemoMVC.Models.Theme>*@
+
+<div class="categories">
+    <h3>Categories</h3>
+    @foreach (var item in Model)
+    {
+        <ul>
+            <li><a href="@Url.Action("ProductsByTheme", "BookStore", new { id = item.Id})">@item.Name</a></li>
+        </ul>
+    }
+</div>
+
