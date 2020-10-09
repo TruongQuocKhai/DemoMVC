@@ -1,0 +1,218 @@
+[1mdiff --git a/DemoMVC/DemoMVC.csproj b/DemoMVC/DemoMVC.csproj[m
+[1mindex 45596cf..246fbcb 100644[m
+[1m--- a/DemoMVC/DemoMVC.csproj[m
+[1m+++ b/DemoMVC/DemoMVC.csproj[m
+[36m@@ -122,14 +122,18 @@[m
+     <Compile Include="App_Start\FilterConfig.cs" />[m
+     <Compile Include="App_Start\RouteConfig.cs" />[m
+     <Compile Include="Controllers\BookStoreController.cs" />[m
+[32m+[m[32m    <Compile Include="Controllers\CartController.cs" />[m
+[32m+[m[32m    <Compile Include="Controllers\UserController.cs" />[m
+     <Compile Include="Global.asax.cs">[m
+       <DependentUpon>Global.asax</DependentUpon>[m
+     </Compile>[m
+[32m+[m[32m    <Compile Include="Models\CartModel.cs" />[m
+     <Compile Include="Models\DataClasses.designer.cs">[m
+       <AutoGen>True</AutoGen>[m
+       <DesignTime>True</DesignTime>[m
+       <DependentUpon>DataClasses.dbml</DependentUpon>[m
+     </Compile>[m
+[32m+[m[32m    <Compile Include="Models\UserModel.cs" />[m
+     <Compile Include="Properties\AssemblyInfo.cs" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[36m@@ -219,7 +223,6 @@[m
+       <DependentUpon>Web.config</DependentUpon>[m
+     </Content>[m
+     <Content Include="Views\Web.config" />[m
+[31m-    <Content Include="Views\_ViewStart.cshtml" />[m
+     <Content Include="Views\Shared\Error.cshtml" />[m
+     <Content Include="Views\Shared\_LayoutUser.cshtml" />[m
+   </ItemGroup>[m
+[36m@@ -251,6 +254,10 @@[m
+     <Content Include="Views\BookStore\ProductsByTheme.cshtml" />[m
+     <Content Include="Views\BookStore\ProductsByPublisher.cshtml" />[m
+     <Content Include="Views\BookStore\Detail.cshtml" />[m
+[32m+[m[32m    <Content Include="Views\User\SignUp.cshtml" />[m
+[32m+[m[32m    <Content Include="Views\User\SignIn.cshtml" />[m
+[32m+[m[32m    <Content Include="Views\Cart\Cart.cshtml" />[m
+[32m+[m[32m    <Content Include="Views\Cart\CartPartial.cshtml" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />[m
+[1mdiff --git a/DemoMVC/Views/BookStore/Detail.cshtml b/DemoMVC/Views/BookStore/Detail.cshtml[m
+[1mindex 3d5faa4..4e90356 100644[m
+[1m--- a/DemoMVC/Views/BookStore/Detail.cshtml[m
+[1m+++ b/DemoMVC/Views/BookStore/Detail.cshtml[m
+[36m@@ -1,11 +1,130 @@[m
+[31m-﻿@{[m
+[32m+[m[32m﻿@model DemoMVC.Models.Book[m
+[32m+[m[32m@{[m
+     ViewBag.Title = "Detail";[m
+     Layout = "~/Views/Shared/_LayoutUser.cshtml";[m
+ }[m
+ [m
+[31m-<h2>Thong tin chi tiet sach</h2>[m
+[31m-[m
+[31m-<h3>Ten sach: @Model.Name</h3>[m
+[31m-[m
+[31m-[m
+[31m-[m
+[32m+[m[32m<div class="main">[m
+[32m+[m[32m    <div class="main">[m
+[32m+[m[32m        <div class="content">[m
+[32m+[m[32m            <div class="content_top">[m
+[32m+[m[32m                <div class="back-links">[m
+[32m+[m[32m                    <p><a href="index.html">Home</a> >>>> <a href="/san-pham/">Electronics</a></p>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                <div class="clear"></div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m            <div class="section group">[m
+[32m+[m[32m                <div class="cont-desc span_1_of_2">[m
+[32m+[m[32m                    <div class="product-details">[m
+[32m+[m[32m                        <div class="grid images_3_of_2">[m
+[32m+[m[32m                            <div id="container">[m
+[32m+[m[32m                                <div id="products_example">[m
+[32m+[m[32m                                    <div id="products">[m
+[32m+[m[32m                                        <div class="slides_container">[m
+[32m+[m[32m                                            <a href="#" target="_blank"><img src="/images/@Model.CoverImage" alt=" " /></a>[m
+[32m+[m[32m                                        </div>[m
+[32m+[m[32m                                    </div>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div class="desc span_3_of_2">[m
+[32m+[m[32m                            <h2>Lorem Ipsum is simply dummy text </h2>[m
+[32m+[m[32m                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>[m
+[32m+[m[32m                            <div class="price">[m
+[32m+[m[32m                                <p>Price: <span>$500</span></p>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                            <div class="share-desc">[m
+[32m+[m[32m                                <div class="button"><span><a href="@Url.Action("AddItem", "Cart", new { @BookId = Model.Id, @url = Request.Url.ToString()})">Add to Cart</a></span></div>[m
+[32m+[m[32m                                <div class="clear"></div>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div class="clear"></div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    <div class="product_desc">[m
+[32m+[m[32m                        <div id="horizontalTab">[m
+[32m+[m[32m                            <ul class="resp-tabs-list">[m
+[32m+[m[32m                                <li>Product Details</li>[m
+[32m+[m[32m                                <li>Product Reviews</li>[m
+[32m+[m[32m                                <div class="clear"></div>[m
+[32m+[m[32m                            </ul>[m
+[32m+[m[32m                            <div class="resp-tabs-container">[m
+[32m+[m[32m                                <div class="product-desc">[m
+[32m+[m[32m                                    <p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>[m
+[32m+[m[32m                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>[m
+[32m+[m[32m                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                                <div class="review">[m
+[32m+[m[32m                                    <h4>Lorem ipsum Review by <a href="#">Finibus Bonorum</a></h4>[m
+[32m+[m[32m                                    <ul>[m
+[32m+[m[32m                                        <li>Price :<a href="#"><img src="images/price-rating.png" alt="" /></a></li>[m
+[32m+[m[32m                                        <li>Value :<a href="#"><img src="images/value-rating.png" alt="" /></a></li>[m
+[32m+[m[32m                                        <li>Quality :<a href="#"><img src="images/quality-rating.png" alt="" /></a></li>[m
+[32m+[m[32m                                    </ul>[m
+[32m+[m[32m                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>[m
+[32m+[m[32m                                    <div class="your-review">[m
+[32m+[m[32m                                        <h3>How Do You Rate This Product?</h3>[m
+[32m+[m[32m                                        <p>Write Your Own Review?</p>[m
+[32m+[m[32m                                        <form>[m
+[32m+[m[32m                                            <div>[m
+[32m+[m[32m                                                <span><label>Nickname<span class="red">*</span></label></span>[m
+[32m+[m[32m                                                <span><input type="text" value=""></span>[m
+[32m+[m[32m                                            </div>[m
+[32m+[m[32m                                            <div>[m
+[32m+[m[32m                                                <span><label>Summary of Your Review<span class="red">*</span></label></span>[m
+[32m+[m[32m                                                <span><input type="text" value=""></span>[m
+[32m+[m[32m                                            </div>[m
+[32m+[m[32m                                            <div>[m
+[32m+[m[32m                                                <span><label>Review<span class="red">*</span></label></span>[m
+[32m+[m[32m                                                <span><textarea> </textarea></span>[m
+[32m+[m[32m                                            </div>[m
+[32m+[m[32m                                            <div>[m
+[32m+[m[32m                                                <span><input type="submit" value="SUBMIT REVIEW"></span>[m
+[32m+[m[32m                                            </div>[m
+[32m+[m[32m                                        </form>[m
+[32m+[m[32m                                    </div>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    <script type="text/javascript">[m
+[32m+[m[32m    $(document).ready(function () {[m
+[32m+[m[32m                            $('#horizontalTab').easyResponsiveTabs({[m
+[32m+[m[32m                                type: 'default', //Types: default, vertical, accordion[m
+[32m+[m[32m                                width: 'auto', //auto or any width like 600px[m
+[32m+[m[32m                                fit: true   // 100% fit in a container[m
+[32m+[m[32m                            });[m
+[32m+[m[32m                        });</script>[m
+[32m+[m[32m                    <!-- sản phẩm liên quan -->[m
+[32m+[m[32m                    <div class="content_bottom">[m
+[32m+[m[32m                        <div class="heading">[m
+[32m+[m[32m                            <h3>Related Products</h3>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div class="see">[m
+[32m+[m[32m                            <p><a href="#">See all Products</a></p>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div class="clear"></div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    <div class="section group">[m
+[32m+[m[32m                        <div class="grid_1_of_4 images_1_of_4">[m
+[32m+[m[32m                            <a href="#"><img src="images/new-pic1.jpg" alt=""></a>[m
+[32m+[m[32m                            <div class="price" style="border:none">[m
+[32m+[m[32m                                <div class="add-cart" style="float:none">[m
+[32m+[m[32m                                    <h4><a href="#">Add to Cart</a></h4>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                                <div class="clear"></div>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    <!-- end sp liên quan -->[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m                @*<!-- Danh muc thuong hieu ben trai -->*@[m
+[32m+[m[32m                @*<!-- Danh muc thuong hieu ben trai -->*@[m
+[32m+[m[32m                <div class="rightsidebar span_3_of_1">[m
+[32m+[m[32m                    <h2>CATEGORIES</h2>[m
+[32m+[m[32m                    <ul class="side-w3ls">[m
+[32m+[m[32m                        <li><a href="#">Mobile Phones</a></li>[m
+[32m+[m[32m                    </ul>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </div>[m
+[1mdiff --git a/DemoMVC/Views/Shared/_LayoutUser.cshtml b/DemoMVC/Views/Shared/_LayoutUser.cshtml[m
+[1mindex 4f44aa9..5a4b79a 100644[m
+[1m--- a/DemoMVC/Views/Shared/_LayoutUser.cshtml[m
+[1m+++ b/DemoMVC/Views/Shared/_LayoutUser.cshtml[m
+[36m@@ -42,16 +42,18 @@[m [mLicense URL: http://creativecommons.org/licenses/by/3.0/[m
+                 <div class="logo">[m
+                     <a href="index.html"><img src="images/logo.png" alt="" /></a>[m
+                 </div>[m
+[32m+[m
+                 <div class="cart">[m
+                     <p>[m
+[31m-                        Welcome to our Online Store! <span>Cart:</span><div id="dd" class="wrapper-dropdown-2">[m
+[31m-                            0 item(s) - $0.00[m
+[32m+[m[32m                        Welcome to our Online Store! @Session["Account"] <span>Cart:</span><div id="dd" class="wrapper-dropdown-2">[m
+[32m+[m[32m                            0 item(@ViewBag.Total) - $0.00[m
+                             <ul class="dropdown">[m
+                                 <li>you have no items in your Shopping cart</li>[m
+                             </ul>[m
+                         </div>[m
+                     </p>[m
+                 </div>[m
+[32m+[m
+                 <script type="Scripts">[m
+                     function DropDown(el) {[m
+                     this.dd = el;[m
+[1mdiff --git a/DemoMVC/Views/_ViewStart.cshtml b/DemoMVC/Views/_ViewStart.cshtml[m
+[1mdeleted file mode 100644[m
+[1mindex 2242b06..0000000[m
+[1m--- a/DemoMVC/Views/_ViewStart.cshtml[m
+[1m+++ /dev/null[m
+[36m@@ -1,3 +0,0 @@[m
+[31m-﻿@{[m
+[31m-    Layout = "~/Views/Shared/_LayoutUser.cshtml";[m
+[31m-}[m

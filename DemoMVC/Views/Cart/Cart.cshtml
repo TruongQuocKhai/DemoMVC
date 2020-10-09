@@ -1,0 +1,36 @@
+﻿@using DemoMVC.Models
+@model List<CartModel>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2>Thong tin gio hang</h2>
+<table>
+    <tr>
+        <td>Ma sach</td>
+        <td>Ten sach</td>
+        <td>Anh bia</td>
+        <td>So luong</td>
+        <td>Don gia</td>
+        <td>Thanh tien</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm("UpdateCart", "Cart", new { @id = item.BookId }))
+        {
+            <tr>
+                <td>@item.BookId</td>
+                <td>@item.BookName</td>
+                <td>@item.CoverImage</td>
+                <td><input type="number" min="1" name="txtAmount" value="@item.Amount" style="background-color:yellow" /></td>
+                <td>@String.Format("{0:0,0}", item.Price)</td>
+                <td>@String.Format("{0:0,0}", item.TotalMoney)</td>
+                <td>@Html.ActionLink("Xoa", "DeleteCart", new { @id = item.BookId })</td>
+                <td><input type="submit" value="cap nhat" /></td>
+            </tr>
+        }
+    }
+</table>
+
+
